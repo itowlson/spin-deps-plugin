@@ -35,7 +35,7 @@ jobs:
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
         with:
-          toolchain: 1.84
+          toolchain: 1.90
         
       - name: Install dependencies
         run: |
@@ -44,6 +44,11 @@ jobs:
         
       - name: lint code
         run: cargo fmt --all -- --check
+
+      - name: Audit dependencies
+        run: |
+          cargo install cargo-audit --locked
+          cargo audit
         
       - name: Run Clippy
         run: cargo clippy --all -- -D warnings   
@@ -72,7 +77,7 @@ jobs:
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
         with:
-          toolchain: 1.84
+          toolchain: 1.90
           targets: ${{ matrix.config.target }}
       - name: Install Spin
         uses: rajatjindal/setup-actions/spin@main
